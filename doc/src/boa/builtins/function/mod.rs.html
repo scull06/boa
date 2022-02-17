@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa&#x2F;src&#x2F;builtins&#x2F;function&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../boa/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa&#x2F;src&#x2F;builtins&#x2F;function&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../boa/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -647,22 +648,11 @@
 <span id="647">647</span>
 <span id="648">648</span>
 <span id="649">649</span>
-<span id="650">650</span>
-<span id="651">651</span>
-<span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
-<span id="656">656</span>
-<span id="657">657</span>
-<span id="658">658</span>
-<span id="659">659</span>
-<span id="660">660</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module implements the global `Function` object as well as creates Native Functions.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Objects wrap `Function`s and expose them via call/construct slots.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! `The `Function` object is used for matching text with a pattern.</span>
+<span class="doccomment">//! The `Function` object is used for matching text with a pattern.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! More information:</span>
 <span class="doccomment">//!  - [ECMAScript reference][spec]</span>
@@ -671,39 +661,29 @@
 <span class="doccomment">//! [spec]: https://tc39.es/ecma262/#sec-function-objects</span>
 <span class="doccomment">//! [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function</span>
 
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::JsArgs</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">builtins::BuiltIn</span>,
+    <span class="ident">context::StandardObjects</span>,
+    <span class="ident">environment::lexical_environment::Environment</span>,
+    <span class="ident">gc</span>::{<span class="self">self</span>, <span class="ident">Finalize</span>, <span class="ident">Gc</span>, <span class="ident">Trace</span>},
+    <span class="ident">object</span>::{
+        <span class="ident">internal_methods::get_prototype_from_constructor</span>, <span class="ident">JsObject</span>, <span class="ident">NativeObject</span>, <span class="ident">Object</span>,
+        <span class="ident">ObjectData</span>,
+    },
+    <span class="ident">object</span>::{<span class="ident">ConstructorBuilder</span>, <span class="ident">FunctionBuilder</span>, <span class="ident">Ref</span>, <span class="ident">RefMut</span>},
+    <span class="ident">property</span>::{<span class="ident">Attribute</span>, <span class="ident">PropertyDescriptor</span>, <span class="ident">PropertyKey</span>},
+    <span class="ident">symbol::WellKnownSymbols</span>,
+    <span class="ident">value::IntegerOrInfinity</span>,
+    <span class="ident">BoaProfiler</span>, <span class="ident">Context</span>, <span class="ident">JsResult</span>, <span class="ident">JsString</span>, <span class="ident">JsValue</span>,
+};
+<span class="kw">use</span> <span class="ident">dyn_clone::DynClone</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">any::Any</span>,
     <span class="ident">borrow::Cow</span>,
     <span class="ident">fmt</span>,
     <span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>},
 };
-
-<span class="kw">use</span> <span class="ident">dyn_clone::DynClone</span>;
-<span class="kw">use</span> <span class="ident">gc</span>::{<span class="ident">Gc</span>, <span class="ident">GcCell</span>};
-
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">builtins::BuiltIn</span>,
-    <span class="ident">context::StandardObjects</span>,
-    <span class="ident">environment::lexical_environment::Environment</span>,
-    <span class="ident">gc</span>::{<span class="ident">Finalize</span>, <span class="ident">Trace</span>},
-    <span class="ident">object::JsObject</span>,
-    <span class="ident">object</span>::{<span class="ident">internal_methods::get_prototype_from_constructor</span>, <span class="ident">NativeObject</span>, <span class="ident">ObjectData</span>},
-    <span class="ident">property::Attribute</span>,
-    <span class="ident">property::PropertyDescriptor</span>,
-    <span class="ident">BoaProfiler</span>, <span class="ident">Context</span>, <span class="ident">JsResult</span>, <span class="ident">JsValue</span>,
-};
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">object::Object</span>, <span class="ident">symbol::WellKnownSymbols</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">object</span>::{<span class="ident">ConstructorBuilder</span>, <span class="ident">FunctionBuilder</span>},
-    <span class="ident">property::PropertyKey</span>,
-    <span class="ident">JsString</span>,
-};
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">object</span>::{<span class="ident">Ref</span>, <span class="ident">RefMut</span>},
-    <span class="ident">value::IntegerOrInfinity</span>,
-};
-
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::JsArgs</span>;
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">arguments</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -713,7 +693,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Native functions need to have this signature in order to</span>
 <span class="doccomment">/// be callable from Javascript.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">NativeFunctionSignature</span> <span class="op">=</span> <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">NativeFunctionSignature</span> <span class="op">=</span> <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span>;
 
 <span class="comment">// Allows restricting closures to only `Copy` ones.</span>
 <span class="comment">// Used the sealed pattern to disallow external implementations</span>
@@ -731,12 +711,12 @@
 <span class="doccomment">/// be callable from Javascript, but most of the time the compiler</span>
 <span class="doccomment">/// is smart enough to correctly infer the types.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ClosureFunctionSignature</span>:
-    <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">Captures</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">DynCopy</span> <span class="op">+</span> <span class="ident">DynClone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+    <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">Captures</span>, <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">DynCopy</span> <span class="op">+</span> <span class="ident">DynClone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ClosureFunctionSignature</span> <span class="kw">for</span> <span class="ident">T</span> <span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">Captures</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Copy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
+    <span class="ident">T</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">Captures</span>, <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Copy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
 }
 
@@ -796,7 +776,7 @@
 <span class="doccomment">/// with `Any::downcast_ref` and `Any::downcast_mut` to recover the original</span>
 <span class="doccomment">/// type.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Trace</span>, <span class="ident">Finalize</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Captures</span>(<span class="ident">Gc</span><span class="op">&lt;</span><span class="ident">GcCell</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NativeObject</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Captures</span>(<span class="ident">Gc</span><span class="op">&lt;</span><span class="ident">gc::Cell</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NativeObject</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span> <span class="ident">Captures</span> {
     <span class="doccomment">/// Creates a new capture context.</span>
@@ -804,7 +784,7 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">NativeObject</span>,
     {
-        <span class="self">Self</span>(<span class="ident">Gc::new</span>(<span class="ident">GcCell::new</span>(<span class="ident">Box::new</span>(<span class="ident">captures</span>))))
+        <span class="self">Self</span>(<span class="ident">Gc::new</span>(<span class="ident">gc::Cell::new</span>(<span class="ident">Box::new</span>(<span class="ident">captures</span>))))
     }
 
     <span class="doccomment">/// Casts `Captures` to `Any`</span>
@@ -812,7 +792,7 @@
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if it&#39;s already borrowed as `&amp;mut Any`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_any</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">gc::GcCellRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_any</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">gc::Ref</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span> {
         <span class="ident">Ref::map</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>(), <span class="op">|</span><span class="ident">data</span><span class="op">|</span> <span class="ident">data</span>.<span class="ident">deref</span>().<span class="ident">as_any</span>())
     }
 
@@ -821,14 +801,15 @@
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if it&#39;s already borrowed as `&amp;mut Any`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_any</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">gc::GcCellRefMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NativeObject</span><span class="op">&gt;</span>, <span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_mut_any</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">gc::RefMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NativeObject</span><span class="op">&gt;</span>, <span class="kw">dyn</span> <span class="ident">Any</span><span class="op">&gt;</span> {
         <span class="ident">RefMut::map</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>(), <span class="op">|</span><span class="ident">data</span><span class="op">|</span> <span class="ident">data</span>.<span class="ident">deref_mut</span>().<span class="ident">as_mut_any</span>())
     }
 }
 
 <span class="doccomment">/// Boa representation of a Function Object.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// FunctionBody is specific to this interpreter, it will either be Rust code or JavaScript code (AST Node)</span>
+<span class="doccomment">/// `FunctionBody` is specific to this interpreter, it will either be Rust code or JavaScript code</span>
+<span class="doccomment">/// (AST Node).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// &lt;https://tc39.es/ecma262/#sec-ecmascript-function-objects&gt;</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Trace</span>, <span class="ident">Finalize</span>)]</span>
@@ -851,7 +832,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Function</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Function {{ ... }}&quot;</span>)
     }
 }
@@ -860,8 +841,7 @@
     <span class="doccomment">/// Returns true if the function object is a constructor.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_constructor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Native</span> { <span class="ident">constructor</span>, .. } =&gt; <span class="kw-2">*</span><span class="ident">constructor</span>,
-            <span class="ident"><span class="self">Self</span>::Closure</span> { <span class="ident">constructor</span>, .. } =&gt; <span class="kw-2">*</span><span class="ident">constructor</span>,
+            <span class="ident"><span class="self">Self</span>::Native</span> { <span class="ident">constructor</span>, .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::Closure</span> { <span class="ident">constructor</span>, .. } =&gt; <span class="kw-2">*</span><span class="ident">constructor</span>,
             <span class="ident"><span class="self">Self</span>::VmOrdinary</span> { <span class="ident">code</span>, .. } =&gt; <span class="ident">code</span>.<span class="ident">constructor</span>,
         }
     }
@@ -896,7 +876,7 @@
     <span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 {
     <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">into</span>();
-    <span class="kw">let</span> <span class="ident">_timer</span> <span class="op">=</span> <span class="ident">BoaProfiler::global</span>().<span class="ident">start_event</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;make_builtin_fn: {}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">name</span>), <span class="string">&quot;init&quot;</span>);
+    <span class="kw">let</span> <span class="ident">_timer</span> <span class="op">=</span> <span class="ident">BoaProfiler::global</span>().<span class="ident">start_event</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;make_builtin_fn: {name}&quot;</span>), <span class="string">&quot;init&quot;</span>);
 
     <span class="kw">let</span> <span class="ident">function</span> <span class="op">=</span> <span class="ident">JsObject::from_proto_and_data</span>(
         <span class="ident">interpreter</span>.<span class="ident">standard_objects</span>().<span class="ident">function_object</span>().<span class="ident">prototype</span>(),
@@ -931,7 +911,7 @@
     <span class="kw">fn</span> <span class="ident">constructor</span>(
         <span class="ident">new_target</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
         <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>],
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">prototype</span> <span class="op">=</span>
             <span class="ident">get_prototype_from_constructor</span>(<span class="ident">new_target</span>, <span class="ident">StandardObjects::function_object</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
@@ -958,7 +938,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-function.prototype.apply</span>
     <span class="doccomment">/// [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply</span>
-    <span class="kw">fn</span> <span class="ident">apply</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">apply</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let func be the this value.</span>
         <span class="comment">// 2. If IsCallable(func) is false, throw a TypeError exception.</span>
         <span class="kw">let</span> <span class="ident">func</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">as_callable</span>().<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
@@ -998,7 +978,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-function.prototype.bind</span>
     <span class="doccomment">/// [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind</span>
-    <span class="kw">fn</span> <span class="ident">bind</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">bind</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let Target be the this value.</span>
         <span class="comment">// 2. If IsCallable(Target) is false, throw a TypeError exception.</span>
         <span class="kw">let</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">as_callable</span>().<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
@@ -1006,7 +986,7 @@
         })<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">this_arg</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">get_or_undefined</span>(<span class="number">0</span>).<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">bound_args</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">get</span>(<span class="number">1</span>..).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="kw-2">&amp;</span>[]).<span class="ident">to_vec</span>();
+        <span class="kw">let</span> <span class="ident">bound_args</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">get</span>(<span class="number">1</span>..).<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span>[]).<span class="ident">to_vec</span>();
         <span class="kw">let</span> <span class="ident">arg_count</span> <span class="op">=</span> <span class="ident">bound_args</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">i64</span>;
 
         <span class="comment">// 3. Let F be ? BoundFunctionCreate(Target, thisArg, args).</span>
@@ -1079,7 +1059,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-function.prototype.call</span>
     <span class="doccomment">/// [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call</span>
-    <span class="kw">fn</span> <span class="ident">call</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">call</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let func be the this value.</span>
         <span class="comment">// 2. If IsCallable(func) is false, throw a TypeError exception.</span>
         <span class="kw">let</span> <span class="ident">func</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">as_callable</span>().<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
@@ -1095,7 +1075,7 @@
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::wrong_self_convention</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">to_string</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">to_string</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">object</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">as_object</span>().<span class="ident">map</span>(<span class="ident">JsObject::borrow</span>);
         <span class="kw">let</span> <span class="ident">function</span> <span class="op">=</span> <span class="ident">object</span>
             .<span class="ident">as_deref</span>()
@@ -1108,7 +1088,7 @@
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">this</span>
                 .<span class="ident">as_object</span>()
                 .<span class="ident">expect</span>(<span class="string">&quot;checked that `this` was an object above&quot;</span>)
-                .<span class="ident">get</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">context</span>)<span class="question-mark">?</span>;
+                .<span class="ident">get</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="ident">context</span>)<span class="question-mark">?</span>;
             <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_null_or_undefined</span>() {
                 <span class="prelude-val">None</span>
             } <span class="kw">else</span> {
@@ -1123,13 +1103,11 @@
                     <span class="ident">constructor</span>: <span class="kw">_</span>,
                 },
                 <span class="prelude-val">Some</span>(<span class="ident">name</span>),
-            ) =&gt; <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">&quot;function {}() {{\n  [native Code]\n}}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">name</span>).<span class="ident">into</span>()),
+            ) =&gt; <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">&quot;function {name}() {{\n  [native Code]\n}}&quot;</span>).<span class="ident">into</span>()),
             (<span class="ident">Function::VmOrdinary</span> { .. }, <span class="prelude-val">Some</span>(<span class="ident">name</span>)) <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>() =&gt; {
                 <span class="prelude-val">Ok</span>(<span class="string">&quot;[Function (anonymous)]&quot;</span>.<span class="ident">into</span>())
             }
-            (<span class="ident">Function::VmOrdinary</span> { .. }, <span class="prelude-val">Some</span>(<span class="ident">name</span>)) =&gt; {
-                <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">&quot;[Function: {}]&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">name</span>).<span class="ident">into</span>())
-            }
+            (<span class="ident">Function::VmOrdinary</span> { .. }, <span class="prelude-val">Some</span>(<span class="ident">name</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">&quot;[Function: {name}]&quot;</span>).<span class="ident">into</span>()),
             (<span class="ident">Function::VmOrdinary</span> { .. }, <span class="prelude-val">None</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="string">&quot;[Function (anonymous)]&quot;</span>.<span class="ident">into</span>()),
             <span class="kw">_</span> =&gt; <span class="prelude-val">Ok</span>(<span class="string">&quot;TODO&quot;</span>.<span class="ident">into</span>()),
         }
@@ -1141,13 +1119,14 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-function.prototype-@@hasinstance</span>
-    <span class="kw">fn</span> <span class="ident">has_instance</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">has_instance</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let F be the this value.</span>
         <span class="comment">// 2. Return ? OrdinaryHasInstance(F, V).</span>
         <span class="prelude-val">Ok</span>(<span class="ident">JsValue::ordinary_has_instance</span>(<span class="ident">this</span>, <span class="ident">args</span>.<span class="ident">get_or_undefined</span>(<span class="number">0</span>), <span class="ident">context</span>)<span class="question-mark">?</span>.<span class="ident">into</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">prototype</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unnecessary_wraps</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">prototype</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">JsValue::undefined</span>())
     }
 }
@@ -1159,7 +1138,7 @@
         .<span class="ident">union</span>(<span class="ident">Attribute::NON_ENUMERABLE</span>)
         .<span class="ident">union</span>(<span class="ident">Attribute::CONFIGURABLE</span>);
 
-    <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsValue</span> {
+    <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsValue</span> {
         <span class="kw">let</span> <span class="ident">_timer</span> <span class="op">=</span> <span class="ident">BoaProfiler::global</span>().<span class="ident">start_event</span>(<span class="string">&quot;function&quot;</span>, <span class="string">&quot;init&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">function_prototype</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">standard_objects</span>().<span class="ident">function_object</span>().<span class="ident">prototype</span>();
@@ -1205,7 +1184,7 @@
     <span class="ident">function</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
     <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">PropertyKey</span>,
     <span class="ident">prefix</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
-    <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+    <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
 ) {
     <span class="comment">// 1. Assert: F is an extensible object that does not have a &quot;name&quot; own property.</span>
     <span class="comment">// 2. If Type(name) is Symbol, then</span>
@@ -1221,7 +1200,7 @@
             }
         }
         <span class="ident">PropertyKey::String</span>(<span class="ident">string</span>) =&gt; <span class="ident">Cow::Borrowed</span>(<span class="ident">string</span>),
-        <span class="ident">PropertyKey::Index</span>(<span class="ident">index</span>) =&gt; <span class="ident">Cow::Owned</span>(<span class="ident">JsString::new</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">index</span>))),
+        <span class="ident">PropertyKey::Index</span>(<span class="ident">index</span>) =&gt; <span class="ident">Cow::Owned</span>(<span class="ident">JsString::new</span>(<span class="ident">index</span>.<span class="ident">to_string</span>())),
     };
 
     <span class="comment">// 3. Else if name is a Private Name, then</span>
@@ -1274,7 +1253,7 @@
         <span class="ident">target_function</span>: <span class="ident">JsObject</span>,
         <span class="ident">this</span>: <span class="ident">JsValue</span>,
         <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsObject</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let proto be ? targetFunction.[[GetPrototypeOf]]().</span>
         <span class="kw">let</span> <span class="ident">proto</span> <span class="op">=</span> <span class="ident">target_function</span>.<span class="ident">__get_prototype_of__</span>(<span class="ident">context</span>)<span class="question-mark">?</span>;
@@ -1293,7 +1272,7 @@
         <span class="prelude-val">Ok</span>(<span class="ident">JsObject::from_proto_and_data</span>(
             <span class="ident">proto</span>,
             <span class="ident">ObjectData::bound_function</span>(
-                <span class="ident">BoundFunction</span> {
+                <span class="self">Self</span> {
                     <span class="ident">target_function</span>,
                     <span class="ident">this</span>,
                     <span class="ident">args</span>,
@@ -1320,5 +1299,4 @@
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="boa" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
-    <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>
 </body></html>

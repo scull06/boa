@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa&#x2F;src&#x2F;builtins&#x2F;typed_array&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../boa/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa&#x2F;src&#x2F;builtins&#x2F;typed_array&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../boa/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -3373,9 +3374,6 @@
 <span id="3373">3373</span>
 <span id="3374">3374</span>
 <span id="3375">3375</span>
-<span id="3376">3376</span>
-<span id="3377">3377</span>
-<span id="3378">3378</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module implements the global `TypedArray` objects.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! A `TypedArray` object describes an array-like view of an underlying binary data buffer.</span>
@@ -3426,7 +3424,7 @@
                 .<span class="ident">union</span>(<span class="ident">Attribute::NON_ENUMERABLE</span>)
                 .<span class="ident">union</span>(<span class="ident">Attribute::CONFIGURABLE</span>);
 
-            <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsValue</span> {
+            <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsValue</span> {
                 <span class="kw">let</span> <span class="ident">_timer</span> <span class="op">=</span> <span class="ident">BoaProfiler::global</span>().<span class="ident">start_event</span>(<span class="ident"><span class="self">Self</span>::NAME</span>, <span class="string">&quot;init&quot;</span>);
 
                 <span class="kw">let</span> <span class="ident">typed_array_constructor</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">typed_array_constructor</span>().<span class="ident">constructor</span>();
@@ -3479,7 +3477,7 @@
             <span class="kw">fn</span> <span class="ident">constructor</span>(
                 <span class="ident">new_target</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
                 <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>],
-                <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+                <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
             ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
                 <span class="comment">// 1. If NewTarget is undefined, throw a TypeError exception.</span>
                 <span class="kw">if</span> <span class="ident">new_target</span>.<span class="ident">is_undefined</span>() {
@@ -3524,11 +3522,7 @@
                     <span class="comment">// ii. If firstArgument has a [[TypedArrayName]] internal slot, then</span>
                     <span class="kw">if</span> <span class="ident">first_argument</span>.<span class="ident">is_typed_array</span>() {
                         <span class="comment">// 1. Perform ? InitializeTypedArrayFromTypedArray(O, firstArgument).</span>
-                        <span class="ident">TypedArray::initialize_from_typed_array</span>(
-                            <span class="kw-2">&amp;</span><span class="ident">o</span>,
-                            <span class="ident">first_argument</span>.<span class="ident">clone</span>(),
-                            <span class="ident">context</span>,
-                        )<span class="question-mark">?</span>;
+                        <span class="ident">TypedArray::initialize_from_typed_array</span>(<span class="kw-2">&amp;</span><span class="ident">o</span>, <span class="ident">first_argument</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
                     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">first_argument</span>.<span class="ident">is_array_buffer</span>() {
                         <span class="comment">// iii. Else if firstArgument has an [[ArrayBufferData]] internal slot, then</span>
 
@@ -3563,7 +3557,7 @@
                             <span class="comment">// a. Let values be ? IterableToList(firstArgument, usingIterator).</span>
                             <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">iterable_to_list</span>(
                                 <span class="ident">context</span>,
-                                <span class="ident">first_argument_v</span>,
+                                <span class="kw-2">&amp;</span><span class="ident">first_argument_v</span>,
                                 <span class="prelude-val">Some</span>(<span class="ident">using_iterator</span>.<span class="ident">into</span>()),
                             )<span class="question-mark">?</span>;
 
@@ -3615,7 +3609,7 @@
 
     <span class="kw">const</span> <span class="ident">LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsObject</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsObject</span> {
         <span class="kw">let</span> <span class="ident">get_species</span> <span class="op">=</span> <span class="ident">FunctionBuilder::native</span>(<span class="ident">context</span>, <span class="ident"><span class="self">Self</span>::get_species</span>)
             .<span class="ident">name</span>(<span class="string">&quot;get [Symbol.species]&quot;</span>)
             .<span class="ident">constructor</span>(<span class="bool-val">false</span>)
@@ -3749,7 +3743,7 @@
     <span class="kw">fn</span> <span class="ident">constructor</span>(
         <span class="ident">_new_target</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
         <span class="ident">_args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>],
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Throw a TypeError exception.</span>
         <span class="ident">context</span>.<span class="ident">throw_type_error</span>(<span class="string">&quot;the TypedArray constructor should never be called directly&quot;</span>)
@@ -3761,7 +3755,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.from</span>
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let C be the this value.</span>
         <span class="comment">// 2. If IsConstructor(C) is false, throw a TypeError exception.</span>
         <span class="kw">let</span> <span class="ident">constructor</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">this</span>.<span class="ident">as_object</span>() {
@@ -3796,7 +3790,7 @@
         <span class="comment">// 6. If usingIterator is not undefined, then</span>
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">using_iterator</span>) <span class="op">=</span> <span class="ident">using_iterator</span> {
             <span class="comment">// a. Let values be ? IterableToList(source, usingIterator).</span>
-            <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">iterable_to_list</span>(<span class="ident">context</span>, <span class="ident">source</span>.<span class="ident">clone</span>(), <span class="prelude-val">Some</span>(<span class="ident">using_iterator</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">iterable_to_list</span>(<span class="ident">context</span>, <span class="ident">source</span>, <span class="prelude-val">Some</span>(<span class="ident">using_iterator</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
 
             <span class="comment">// b. Let len be the number of elements in values.</span>
             <span class="comment">// c. Let targetObj be ? TypedArrayCreate(C, « 𝔽(len) »).</span>
@@ -3869,7 +3863,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.of</span>
-    <span class="kw">fn</span> <span class="ident">of</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">of</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let len be the number of elements in items.</span>
 
         <span class="comment">// 2. Let C be the this value.</span>
@@ -3903,7 +3897,8 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-get-%typedarray%-@@species</span>
-    <span class="kw">fn</span> <span class="ident">get_species</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unnecessary_wraps</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">get_species</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Return the this value.</span>
         <span class="prelude-val">Ok</span>(<span class="ident">this</span>.<span class="ident">clone</span>())
     }
@@ -3914,7 +3909,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.at</span>
-    <span class="kw">fn</span> <span class="ident">at</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">at</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -3962,7 +3957,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-get-%typedarray%.prototype.buffer</span>
-    <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? RequireInternalSlot(O, [[TypedArrayName]]).</span>
         <span class="comment">// 3. Assert: O has a [[ViewedArrayBuffer]] internal slot.</span>
@@ -3978,8 +3973,7 @@
         <span class="comment">// 5. Return buffer.</span>
         <span class="prelude-val">Ok</span>(<span class="ident">typed_array</span>
             .<span class="ident">viewed_array_buffer</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">buffer</span><span class="op">|</span> <span class="ident">buffer</span>.<span class="ident">clone</span>().<span class="ident">into</span>())
-            .<span class="ident">unwrap_or_else</span>(<span class="ident">JsValue::undefined</span>))
+            .<span class="ident">map_or_else</span>(<span class="ident">JsValue::undefined</span>, <span class="op">|</span><span class="ident">buffer</span><span class="op">|</span> <span class="ident">buffer</span>.<span class="ident">clone</span>().<span class="ident">into</span>()))
     }
 
     <span class="doccomment">/// `23.2.3.3 get %TypedArray%.prototype.byteLength`</span>
@@ -3988,7 +3982,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-get-%typedarray%.prototype.bytelength</span>
-    <span class="kw">fn</span> <span class="ident">byte_length</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">byte_length</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? RequireInternalSlot(O, [[TypedArrayName]]).</span>
         <span class="comment">// 3. Assert: O has a [[ViewedArrayBuffer]] internal slot.</span>
@@ -4017,7 +4011,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-get-%typedarray%.prototype.byteoffset</span>
-    <span class="kw">fn</span> <span class="ident">byte_offset</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">byte_offset</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? RequireInternalSlot(O, [[TypedArrayName]]).</span>
         <span class="comment">// 3. Assert: O has a [[ViewedArrayBuffer]] internal slot.</span>
@@ -4046,7 +4040,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.copywithin</span>
-    <span class="kw">fn</span> <span class="ident">copy_within</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">copy_within</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
             .<span class="ident">as_object</span>()
@@ -4188,7 +4182,7 @@
                 <span class="ident">buffer</span>.<span class="ident">set_value_in_buffer</span>(
                     <span class="ident">to_byte_index</span> <span class="kw">as</span> <span class="ident">usize</span>,
                     <span class="ident">TypedArrayName::Uint8Array</span>,
-                    <span class="ident">value</span>,
+                    <span class="kw-2">&amp;</span><span class="ident">value</span>,
                     <span class="ident">SharedMemoryOrder::Unordered</span>,
                     <span class="prelude-val">None</span>,
                     <span class="ident">context</span>,
@@ -4215,7 +4209,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries</span>
-    <span class="kw">fn</span> <span class="ident">entries</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">entries</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">o</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4243,7 +4237,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.every</span>
-    <span class="kw">fn</span> <span class="ident">every</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">every</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4302,7 +4296,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill</span>
-    <span class="kw">fn</span> <span class="ident">fill</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fill</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4382,7 +4376,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.filter</span>
-    <span class="kw">fn</span> <span class="ident">filter</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">filter</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4463,7 +4457,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.find</span>
-    <span class="kw">fn</span> <span class="ident">find</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">find</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4521,7 +4515,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.findindex</span>
-    <span class="kw">fn</span> <span class="ident">findindex</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">findindex</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4578,7 +4572,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.foreach</span>
-    <span class="kw">fn</span> <span class="ident">foreach</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">foreach</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4630,7 +4624,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.includes</span>
-    <span class="kw">fn</span> <span class="ident">includes</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">includes</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4703,7 +4697,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.indexof</span>
-    <span class="kw">fn</span> <span class="ident">index_of</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">index_of</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4785,7 +4779,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.join</span>
-    <span class="kw">fn</span> <span class="ident">join</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">join</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4842,7 +4836,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys</span>
-    <span class="kw">fn</span> <span class="ident">keys</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">keys</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">o</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4870,7 +4864,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.lastindexof</span>
-    <span class="kw">fn</span> <span class="ident">last_index_of</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">last_index_of</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -4944,7 +4938,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-get-%typedarray%.prototype.length</span>
-    <span class="kw">fn</span> <span class="ident">length</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">length</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? RequireInternalSlot(O, [[TypedArrayName]]).</span>
         <span class="comment">// 3. Assert: O has [[ViewedArrayBuffer]] and [[ArrayLength]] internal slots.</span>
@@ -4973,7 +4967,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.map</span>
-    <span class="kw">fn</span> <span class="ident">map</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">map</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -5031,7 +5025,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduce</span>
-    <span class="kw">fn</span> <span class="ident">reduce</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reduce</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -5108,7 +5102,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduceright</span>
-    <span class="kw">fn</span> <span class="ident">reduceright</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reduceright</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -5188,7 +5182,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.reverse</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::float_cmp</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -5243,7 +5237,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.set</span>
-    <span class="kw">fn</span> <span class="ident">set</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">set</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let target be the this value.</span>
         <span class="comment">// 2. Perform ? RequireInternalSlot(target, [[TypedArrayName]]).</span>
         <span class="comment">// 3. Assert: target has a [[ViewedArrayBuffer]] internal slot.</span>
@@ -5296,7 +5290,7 @@
         <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
         <span class="ident">target_offset</span>: <span class="ident">IntegerOrInfinity</span>,
         <span class="ident">source</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">target_borrow</span> <span class="op">=</span> <span class="ident">target</span>.<span class="ident">borrow</span>();
         <span class="kw">let</span> <span class="ident">target_array</span> <span class="op">=</span> <span class="ident">target_borrow</span>
@@ -5449,7 +5443,7 @@
                     .<span class="ident">set_value_in_buffer</span>(
                         <span class="ident">target_byte_index</span>,
                         <span class="ident">TypedArrayName::Uint8Array</span>,
-                        <span class="ident">value</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">value</span>,
                         <span class="ident">SharedMemoryOrder::Unordered</span>,
                         <span class="prelude-val">None</span>,
                         <span class="ident">context</span>,
@@ -5483,7 +5477,7 @@
                     .<span class="ident">set_value_in_buffer</span>(
                         <span class="ident">target_byte_index</span>,
                         <span class="ident">target_name</span>,
-                        <span class="ident">value</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">value</span>,
                         <span class="ident">SharedMemoryOrder::Unordered</span>,
                         <span class="prelude-val">None</span>,
                         <span class="ident">context</span>,
@@ -5510,7 +5504,7 @@
         <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
         <span class="ident">target_offset</span>: <span class="ident">IntegerOrInfinity</span>,
         <span class="ident">source</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">target_borrow</span> <span class="op">=</span> <span class="ident">target</span>.<span class="ident">borrow</span>();
         <span class="kw">let</span> <span class="ident">target_array</span> <span class="op">=</span> <span class="ident">target_borrow</span>
@@ -5598,7 +5592,7 @@
             <span class="ident">target_buffer</span>.<span class="ident">set_value_in_buffer</span>(
                 <span class="ident">target_byte_index</span>,
                 <span class="ident">target_name</span>,
-                <span class="ident">value</span>,
+                <span class="kw-2">&amp;</span><span class="ident">value</span>,
                 <span class="ident">SharedMemoryOrder::Unordered</span>,
                 <span class="prelude-val">None</span>,
                 <span class="ident">context</span>,
@@ -5620,7 +5614,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice</span>
-    <span class="kw">fn</span> <span class="ident">slice</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">slice</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -5688,6 +5682,7 @@
             <span class="comment">// d. Let targetName be the String value of A.[[TypedArrayName]].</span>
             <span class="comment">// e. Let targetType be the Element Type value in Table 73 for targetName.</span>
             <span class="comment">// f. If srcType is different from targetType, then</span>
+            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::if_not_else</span>)]</span>
             <span class="kw">if</span> <span class="ident">o</span>.<span class="ident">typed_array_name</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">a_array</span>.<span class="ident">typed_array_name</span>() {
                 <span class="comment">// i. Let n be 0.</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n</span> <span class="op">=</span> <span class="number">0</span>;
@@ -5757,7 +5752,7 @@
                     <span class="ident">target_buffer</span>.<span class="ident">set_value_in_buffer</span>(
                         <span class="ident">target_byte_index</span>,
                         <span class="ident">TypedArrayName::Uint8Array</span>,
-                        <span class="ident">value</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">value</span>,
                         <span class="ident">SharedMemoryOrder::Unordered</span>,
                         <span class="prelude-val">None</span>,
                         <span class="ident">context</span>,
@@ -5784,7 +5779,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.some</span>
-    <span class="kw">fn</span> <span class="ident">some</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">some</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="ident">this</span>
@@ -5842,7 +5837,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort</span>
-    <span class="kw">fn</span> <span class="ident">sort</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">sort</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. If comparefn is not undefined and IsCallable(comparefn) is false, throw a TypeError exception.</span>
         <span class="kw">let</span> <span class="ident">compare_fn</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">args</span>.<span class="ident">get</span>(<span class="number">0</span>) {
             <span class="prelude-val">None</span> <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">JsValue::Undefined</span>) =&gt; <span class="prelude-val">None</span>,
@@ -5904,7 +5899,7 @@
         <span class="kw">let</span> <span class="ident">sort_compare</span> <span class="op">=</span> <span class="op">|</span><span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
                             <span class="ident">y</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
                             <span class="ident">compare_fn</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">JsObject</span><span class="op">&gt;</span>,
-                            <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">|</span>
+                            <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">|</span>
          -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">Ordering</span><span class="op">&gt;</span> {
             <span class="comment">// 1. Assert: Both Type(x) and Type(y) are Number or both are BigInt.</span>
             <span class="comment">// 2. If comparefn is not undefined, then</span>
@@ -6050,7 +6045,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray</span>
-    <span class="kw">fn</span> <span class="ident">subarray</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">subarray</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? RequireInternalSlot(O, [[TypedArrayName]]).</span>
         <span class="comment">// 3. Assert: O has a [[ViewedArrayBuffer]] internal slot.</span>
@@ -6135,7 +6130,7 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-%typedarray%.prototype.values</span>
-    <span class="kw">fn</span> <span class="ident">values</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">values</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. Perform ? ValidateTypedArray(O).</span>
         <span class="kw">let</span> <span class="ident">o</span> <span class="op">=</span> <span class="ident">this</span>
@@ -6163,7 +6158,8 @@
     <span class="doccomment">///  - [ECMAScript reference][spec]</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag</span>
-    <span class="kw">fn</span> <span class="ident">to_string_tag</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unnecessary_wraps</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">to_string_tag</span>(<span class="ident">this</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let O be the this value.</span>
         <span class="comment">// 2. If Type(O) is not Object, return undefined.</span>
         <span class="comment">// 3. If O does not have a [[TypedArrayName]] internal slot, return undefined.</span>
@@ -6172,12 +6168,11 @@
         <span class="comment">// 6. Return name.</span>
         <span class="prelude-val">Ok</span>(<span class="ident">this</span>
             .<span class="ident">as_object</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">obj</span><span class="op">|</span> {
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">obj</span><span class="op">|</span> {
                 <span class="ident">obj</span>.<span class="ident">borrow</span>()
                     .<span class="ident">as_typed_array</span>()
                     .<span class="ident">map</span>(<span class="op">|</span><span class="ident">o</span><span class="op">|</span> <span class="ident">o</span>.<span class="ident">typed_array_name</span>().<span class="ident">name</span>().<span class="ident">into</span>())
             })
-            .<span class="ident">flatten</span>()
             .<span class="ident">unwrap_or</span>(<span class="ident">JsValue::Undefined</span>))
     }
 
@@ -6191,7 +6186,7 @@
         <span class="ident">exemplar</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
         <span class="ident">typed_array_name</span>: <span class="ident">TypedArrayName</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>],
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsObject</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let defaultConstructor be the intrinsic object listed in column one of Table 73 for exemplar.[[TypedArrayName]].</span>
         <span class="kw">let</span> <span class="ident">default_constructor</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">typed_array_name</span> {
@@ -6241,7 +6236,7 @@
     <span class="kw">fn</span> <span class="ident">create</span>(
         <span class="ident">constructor</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>],
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsObject</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let newTypedArray be ? Construct(constructor, argumentList).</span>
         <span class="kw">let</span> <span class="ident">new_typed_array</span> <span class="op">=</span> <span class="ident">constructor</span>.<span class="ident">construct</span>(<span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">constructor</span>.<span class="ident">clone</span>().<span class="ident">into</span>(), <span class="ident">context</span>)<span class="question-mark">?</span>;
@@ -6275,9 +6270,9 @@
 
     <span class="doccomment">/// &lt;https://tc39.es/ecma262/#sec-allocatetypedarraybuffer&gt;</span>
     <span class="kw">fn</span> <span class="ident">allocate_buffer</span>(
-        <span class="ident">indexed</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">IntegerIndexed</span>,
+        <span class="ident">indexed</span>: <span class="kw-2">&amp;mut</span> <span class="ident">IntegerIndexed</span>,
         <span class="ident">length</span>: <span class="ident">usize</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// 1. Assert: O.[[ViewedArrayBuffer]] is undefined.</span>
         <span class="macro">assert!</span>(<span class="ident">indexed</span>.<span class="ident">viewed_array_buffer</span>().<span class="ident">is_none</span>());
@@ -6317,7 +6312,7 @@
     <span class="kw">fn</span> <span class="ident">initialize_from_list</span>(
         <span class="ident">o</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
         <span class="ident">values</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// 1. Let len be the number of elements in values.</span>
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">values</span>.<span class="ident">len</span>();
@@ -6326,7 +6321,7 @@
             <span class="kw">let</span> <span class="ident">o_inner</span> <span class="op">=</span> <span class="ident">o</span>.<span class="ident">as_typed_array_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;expected a TypedArray&quot;</span>);
 
             <span class="comment">// 2. Perform ? AllocateTypedArrayBuffer(O, len).</span>
-            <span class="ident">TypedArray::allocate_buffer</span>(<span class="ident">o_inner</span>, <span class="ident">len</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
+            <span class="ident"><span class="self">Self</span>::allocate_buffer</span>(<span class="ident">o_inner</span>, <span class="ident">len</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
         }
 
         <span class="comment">// 3. Let k be 0.</span>
@@ -6359,7 +6354,7 @@
         <span class="ident">new_target</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
         <span class="ident">default_proto</span>: <span class="ident">P</span>,
         <span class="ident">length</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsObject</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">P</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">StandardObjects</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">StandardConstructor</span>,
@@ -6380,7 +6375,7 @@
         <span class="comment">// 8. Else,</span>
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">length</span>) <span class="op">=</span> <span class="ident">length</span> {
             <span class="comment">// a. Perform ? AllocateTypedArrayBuffer(obj, length).</span>
-            <span class="ident">TypedArray::allocate_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">indexed</span>, <span class="ident">length</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
+            <span class="ident"><span class="self">Self</span>::allocate_buffer</span>(<span class="kw-2">&amp;mut</span> <span class="ident">indexed</span>, <span class="ident">length</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
         }
 
         <span class="comment">// 2. Let obj be ! IntegerIndexedObjectCreate(proto).</span>
@@ -6398,8 +6393,8 @@
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-initializetypedarrayfromtypedarray</span>
     <span class="kw">fn</span> <span class="ident">initialize_from_typed_array</span>(
         <span class="ident">o</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
-        <span class="ident">src_array</span>: <span class="ident">JsObject</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">src_array</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">o_obj</span> <span class="op">=</span> <span class="ident">o</span>.<span class="ident">borrow</span>();
         <span class="kw">let</span> <span class="ident">src_array_obj</span> <span class="op">=</span> <span class="ident">src_array</span>.<span class="ident">borrow</span>();
@@ -6500,7 +6495,7 @@
                 <span class="ident">data</span>.<span class="ident">set_value_in_buffer</span>(
                     <span class="ident">target_byte_index</span>,
                     <span class="ident">constructor_name</span>,
-                    <span class="ident">value</span>,
+                    <span class="kw-2">&amp;</span><span class="ident">value</span>,
                     <span class="ident">SharedMemoryOrder::Unordered</span>,
                     <span class="prelude-val">None</span>,
                     <span class="ident">context</span>,
@@ -6546,7 +6541,7 @@
         <span class="ident">buffer</span>: <span class="ident">JsObject</span>,
         <span class="ident">byte_offset</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
         <span class="ident">length</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// 1. Let constructorName be the String value of O.[[TypedArrayName]].</span>
         <span class="comment">// 2. Let elementSize be the Element Size value specified in Table 73 for constructorName.</span>
@@ -6638,7 +6633,7 @@
     <span class="kw">fn</span> <span class="ident">initialize_from_array_like</span>(
         <span class="ident">o</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
         <span class="ident">array_like</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// 1. Let len be ? LengthOfArrayLike(arrayLike).</span>
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">array_like</span>.<span class="ident">length_of_array_like</span>(<span class="ident">context</span>)<span class="question-mark">?</span>;
@@ -6647,7 +6642,7 @@
         {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">o_borrow</span> <span class="op">=</span> <span class="ident">o</span>.<span class="ident">borrow_mut</span>();
             <span class="kw">let</span> <span class="ident">o</span> <span class="op">=</span> <span class="ident">o_borrow</span>.<span class="ident">as_typed_array_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;Must be typed array&quot;</span>);
-            <span class="ident">TypedArray::allocate_buffer</span>(<span class="ident">o</span>, <span class="ident">len</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
+            <span class="ident"><span class="self">Self</span>::allocate_buffer</span>(<span class="ident">o</span>, <span class="ident">len</span>, <span class="ident">context</span>)<span class="question-mark">?</span>;
         }
 
         <span class="comment">// 3. Let k be 0.</span>
@@ -6727,7 +6722,7 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">is_big_int_element_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">is_big_int_element_type</span>(<span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="macro">matches!</span>(
             <span class="self">self</span>,
             <span class="ident">TypedArrayName::BigUint64Array</span> <span class="op">|</span> <span class="ident">TypedArrayName::BigInt64Array</span>
@@ -6756,5 +6751,4 @@
 <span class="macro">typed_array!</span>(<span class="ident">Float64Array</span>, <span class="string">&quot;Float64Array&quot;</span>, <span class="ident">typed_float64_array_object</span>);
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="boa" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
-    <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>
 </body></html>

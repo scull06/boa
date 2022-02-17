@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa&#x2F;src&#x2F;builtins&#x2F;json&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../boa/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `boa&#x2F;src&#x2F;builtins&#x2F;json&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../../boa/index.html'><div class='logo-container rust-logo'><img src='https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;boa-dev&#x2F;boa&#x2F;main&#x2F;assets&#x2F;logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -733,11 +734,6 @@
 <span id="733">733</span>
 <span id="734">734</span>
 <span id="735">735</span>
-<span id="736">736</span>
-<span id="737">737</span>
-<span id="738">738</span>
-<span id="739">739</span>
-<span id="740">740</span>
 </pre><pre class="rust"><code><span class="doccomment">//! This module implements the global `JSON` object.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The `JSON` object contains methods for parsing [JavaScript Object Notation (JSON)][spec]</span>
@@ -782,7 +778,7 @@
         .<span class="ident">union</span>(<span class="ident">Attribute::NON_ENUMERABLE</span>)
         .<span class="ident">union</span>(<span class="ident">Attribute::CONFIGURABLE</span>);
 
-    <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsValue</span> {
+    <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsValue</span> {
         <span class="kw">let</span> <span class="ident">_timer</span> <span class="op">=</span> <span class="ident">BoaProfiler::global</span>().<span class="ident">start_event</span>(<span class="ident"><span class="self">Self</span>::NAME</span>, <span class="string">&quot;init&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">to_string_tag</span> <span class="op">=</span> <span class="ident">WellKnownSymbols::to_string_tag</span>();
@@ -811,7 +807,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-json.parse</span>
     <span class="doccomment">/// [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>], <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let jsonString be ? ToString(text).</span>
         <span class="kw">let</span> <span class="ident">json_string</span> <span class="op">=</span> <span class="ident">args</span>
             .<span class="ident">get</span>(<span class="number">0</span>)
@@ -866,7 +862,7 @@
         <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
         <span class="ident">name</span>: <span class="ident">JsString</span>,
         <span class="ident">reviver</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let val be ? Get(holder, name).</span>
         <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">holder</span>.<span class="ident">get</span>(<span class="ident">name</span>.<span class="ident">clone</span>(), <span class="ident">context</span>)<span class="question-mark">?</span>;
@@ -875,7 +871,7 @@
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">obj</span>) <span class="op">=</span> <span class="ident">val</span>.<span class="ident">as_object</span>() {
             <span class="comment">// a. Let isArray be ? IsArray(val).</span>
             <span class="comment">// b. If isArray is true, then</span>
-            <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">is_array</span>() {
+            <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">is_array_abstract</span>(<span class="ident">context</span>)<span class="question-mark">?</span> {
                 <span class="comment">// i. Let I be 0.</span>
                 <span class="comment">// ii. Let len be ? LengthOfArrayLike(val).</span>
                 <span class="comment">// iii. Repeat, while I &lt; len,</span>
@@ -953,7 +949,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">stringify</span>(
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">JsValue</span>,
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">JsValue</span>],
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsValue</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let stack be a new empty List.</span>
         <span class="kw">let</span> <span class="ident">stack</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
@@ -972,12 +968,12 @@
             <span class="comment">// a. If IsCallable(replacer) is true, then</span>
             <span class="kw">if</span> <span class="ident">replacer_obj</span>.<span class="ident">is_callable</span>() {
                 <span class="comment">// i. Set ReplacerFunction to replacer.</span>
-                <span class="ident">replacer_function</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">replacer_obj</span>.<span class="ident">clone</span>())
+                <span class="ident">replacer_function</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">replacer_obj</span>.<span class="ident">clone</span>());
             <span class="comment">// b. Else,</span>
             } <span class="kw">else</span> {
                 <span class="comment">// i. Let isArray be ? IsArray(replacer).</span>
                 <span class="comment">// ii. If isArray is true, then</span>
-                <span class="kw">if</span> <span class="ident">replacer_obj</span>.<span class="ident">is_array</span>() {
+                <span class="kw">if</span> <span class="ident">replacer_obj</span>.<span class="ident">is_array_abstract</span>(<span class="ident">context</span>)<span class="question-mark">?</span> {
                     <span class="comment">// 1. Set PropertyList to a new empty List.</span>
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">property_set</span> <span class="op">=</span> <span class="ident">indexmap::IndexSet::new</span>();
 
@@ -1000,7 +996,7 @@
                         <span class="comment">// g. If item is not undefined and item is not currently an element of PropertyList, then</span>
                         <span class="comment">// i. Append item to the end of PropertyList.</span>
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span> <span class="ident">v</span>.<span class="ident">as_string</span>() {
-                            <span class="ident">property_set</span>.<span class="ident">insert</span>(<span class="ident">s</span>.<span class="ident">to_owned</span>());
+                            <span class="ident">property_set</span>.<span class="ident">insert</span>(<span class="ident">s</span>.<span class="ident">clone</span>());
                         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">is_number</span>() {
                             <span class="ident">property_set</span>.<span class="ident">insert</span>(
                                 <span class="ident">v</span>.<span class="ident">to_string</span>(<span class="ident">context</span>)
@@ -1087,8 +1083,8 @@
 
         <span class="comment">// 12. Return ? SerializeJSONProperty(state, the empty String, wrapper).</span>
         <span class="prelude-val">Ok</span>(
-            <span class="ident"><span class="self">Self</span>::serialize_json_property</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state</span>, <span class="ident">JsString::new</span>(<span class="string">&quot;&quot;</span>), <span class="kw-2">&amp;</span><span class="ident">wrapper</span>, <span class="ident">context</span>)<span class="question-mark">?</span>
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">into</span>())
+            <span class="ident"><span class="self">Self</span>::serialize_json_property</span>(<span class="kw-2">&amp;mut</span> <span class="ident">state</span>, <span class="ident">JsString::new</span>(<span class="string">&quot;&quot;</span>), <span class="kw-2">&amp;</span><span class="ident">wrapper</span>, <span class="ident">context</span>)<span class="question-mark">?</span>
+                .<span class="ident">map</span>(<span class="ident">Into::into</span>)
                 .<span class="ident">unwrap_or_default</span>(),
         )
     }
@@ -1100,10 +1096,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-serializejsonproperty</span>
     <span class="kw">fn</span> <span class="ident">serialize_json_property</span>(
-        <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StateRecord</span>,
+        <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">StateRecord</span>,
         <span class="ident">key</span>: <span class="ident">JsString</span>,
         <span class="ident">holder</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">JsString</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="comment">// 1. Let value be ? Get(holder, key).</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">holder</span>.<span class="ident">get</span>(<span class="ident">key</span>.<span class="ident">clone</span>(), <span class="ident">context</span>)<span class="question-mark">?</span>;
@@ -1125,7 +1121,7 @@
         <span class="comment">// 3. If state.[[ReplacerFunction]] is not undefined, then</span>
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">obj</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">state</span>.<span class="ident">replacer_function</span> {
             <span class="comment">// a. Set value to ? Call(state.[[ReplacerFunction]], holder, « key, value »).</span>
-            <span class="ident">value</span> <span class="op">=</span> <span class="ident">obj</span>.<span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="ident">holder</span>.<span class="ident">clone</span>().<span class="ident">into</span>(), <span class="kw-2">&amp;</span>[<span class="ident">key</span>.<span class="ident">into</span>(), <span class="ident">value</span>], <span class="ident">context</span>)<span class="question-mark">?</span>
+            <span class="ident">value</span> <span class="op">=</span> <span class="ident">obj</span>.<span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="ident">holder</span>.<span class="ident">clone</span>().<span class="ident">into</span>(), <span class="kw-2">&amp;</span>[<span class="ident">key</span>.<span class="ident">into</span>(), <span class="ident">value</span>], <span class="ident">context</span>)<span class="question-mark">?</span>;
         }
 
         <span class="comment">// 4. If Type(value) is Object, then</span>
@@ -1143,12 +1139,12 @@
             <span class="comment">// c. Else if value has a [[BooleanData]] internal slot, then</span>
             <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">boolean</span>) <span class="op">=</span> <span class="ident">obj</span>.<span class="ident">borrow</span>().<span class="ident">as_boolean</span>() {
                 <span class="comment">// i. Set value to value.[[BooleanData]].</span>
-                <span class="ident">value</span> <span class="op">=</span> <span class="ident">boolean</span>.<span class="ident">into</span>()
+                <span class="ident">value</span> <span class="op">=</span> <span class="ident">boolean</span>.<span class="ident">into</span>();
             }
             <span class="comment">// d. Else if value has a [[BigIntData]] internal slot, then</span>
             <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">bigint</span>) <span class="op">=</span> <span class="ident">obj</span>.<span class="ident">borrow</span>().<span class="ident">as_bigint</span>() {
                 <span class="comment">// i. Set value to value.[[BigIntData]].</span>
-                <span class="ident">value</span> <span class="op">=</span> <span class="ident">bigint</span>.<span class="ident">clone</span>().<span class="ident">into</span>()
+                <span class="ident">value</span> <span class="op">=</span> <span class="ident">bigint</span>.<span class="ident">clone</span>().<span class="ident">into</span>();
             }
         }
 
@@ -1160,10 +1156,11 @@
         <span class="comment">// 6. If value is true, return &quot;true&quot;.</span>
         <span class="comment">// 7. If value is false, return &quot;false&quot;.</span>
         <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_boolean</span>() {
-            <span class="kw">return</span> <span class="kw">match</span> <span class="ident">value</span>.<span class="ident">to_boolean</span>() {
-                <span class="bool-val">true</span> =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">JsString::new</span>(<span class="string">&quot;true&quot;</span>))),
-                <span class="bool-val">false</span> =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">JsString::new</span>(<span class="string">&quot;false&quot;</span>))),
-            };
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">JsString::new</span>(<span class="kw">if</span> <span class="ident">value</span>.<span class="ident">to_boolean</span>() {
+                <span class="string">&quot;true&quot;</span>
+            } <span class="kw">else</span> {
+                <span class="string">&quot;false&quot;</span>
+            })));
         }
 
         <span class="comment">// 8. If Type(value) is String, return QuoteJSONString(value).</span>
@@ -1197,7 +1194,7 @@
                 <span class="comment">// a. Let isArray be ? IsArray(value).</span>
                 <span class="comment">// b. If isArray is true, return ? SerializeJSONArray(state, value).</span>
                 <span class="comment">// c. Return ? SerializeJSONObject(state, value).</span>
-                <span class="kw">return</span> <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">is_array</span>() {
+                <span class="kw">return</span> <span class="kw">if</span> <span class="ident">obj</span>.<span class="ident">is_array_abstract</span>(<span class="ident">context</span>)<span class="question-mark">?</span> {
                     <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident"><span class="self">Self</span>::serialize_json_array</span>(<span class="ident">state</span>, <span class="ident">obj</span>, <span class="ident">context</span>)<span class="question-mark">?</span>))
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident"><span class="self">Self</span>::serialize_json_object</span>(<span class="ident">state</span>, <span class="ident">obj</span>, <span class="ident">context</span>)<span class="question-mark">?</span>))
@@ -1237,13 +1234,13 @@
                 {
                     <span class="comment">// i. Let unit be the code unit whose numeric value is that of C.</span>
                     <span class="comment">// ii. Set product to the string-concatenation of product and UnicodeEscape(unit).</span>
-                    <span class="ident">product</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;\\\\uAA{:x}&quot;</span>, <span class="ident">code_point</span>));
+                    <span class="ident">product</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;\\\\uAA{code_point:x}&quot;</span>));
                 }
                 <span class="comment">// c. Else,</span>
                 <span class="ident">code_point</span> =&gt; {
                     <span class="comment">// i. Set product to the string-concatenation of product and ! UTF16EncodeCodePoint(C).</span>
                     <span class="ident">product</span>.<span class="ident">push</span>(
-                        <span class="ident">char::from_u32</span>(<span class="ident">code_point</span> <span class="kw">as</span> <span class="ident">u32</span>)
+                        <span class="ident">char::from_u32</span>(<span class="ident">u32::from</span>(<span class="ident">code_point</span>))
                             .<span class="ident">expect</span>(<span class="string">&quot;char from code point cannot fail here&quot;</span>),
                     );
                 }
@@ -1264,9 +1261,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-serializejsonobject</span>
     <span class="kw">fn</span> <span class="ident">serialize_json_object</span>(
-        <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StateRecord</span>,
+        <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">StateRecord</span>,
         <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsString</span><span class="op">&gt;</span> {
         <span class="comment">// 1. If state.[[Stack]] contains value, throw a TypeError exception because the structure is cyclical.</span>
         <span class="kw">let</span> <span class="ident">limiter</span> <span class="op">=</span> <span class="ident">RecursionLimiter::new</span>(<span class="ident">value</span>);
@@ -1342,18 +1339,15 @@
             } <span class="kw">else</span> {
                 <span class="comment">// i. Let separator be the string-concatenation of the code unit 0x002C (COMMA),</span>
                 <span class="comment">//    the code unit 0x000A (LINE FEED), and state.[[Indent]].</span>
-                <span class="kw">let</span> <span class="ident">separator</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;,{}{}&quot;</span>, <span class="string">&#39;\u{A}&#39;</span>, <span class="ident">state</span>.<span class="ident">indent</span>.<span class="ident">as_str</span>());
+                <span class="kw">let</span> <span class="ident">separator</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;,\n{}&quot;</span>, <span class="ident">state</span>.<span class="ident">indent</span>.<span class="ident">as_str</span>());
                 <span class="comment">// ii. Let properties be the String value formed by concatenating all the element Strings of partial</span>
                 <span class="comment">//     with each adjacent pair of Strings separated with separator.</span>
                 <span class="comment">//     The separator String is not inserted either before the first String or after the last String.</span>
                 <span class="kw">let</span> <span class="ident">properties</span> <span class="op">=</span> <span class="ident">partial</span>.<span class="ident">join</span>(<span class="kw-2">&amp;</span><span class="ident">separator</span>);
                 <span class="comment">// iii. Let final be the string-concatenation of &quot;{&quot;, the code unit 0x000A (LINE FEED), state.[[Indent]], properties, the code unit 0x000A (LINE FEED), stepback, and &quot;}&quot;.</span>
                 <span class="macro">format!</span>(
-                    <span class="string">&quot;{{{}{}{}{}{}}}&quot;</span>,
-                    <span class="string">&#39;\u{A}&#39;</span>,
+                    <span class="string">&quot;{{\n{}{properties}\n{}}}&quot;</span>,
                     <span class="ident">state</span>.<span class="ident">indent</span>.<span class="ident">as_str</span>(),
-                    <span class="kw-2">&amp;</span><span class="ident">properties</span>,
-                    <span class="string">&#39;\u{A}&#39;</span>,
                     <span class="ident">stepback</span>.<span class="ident">as_str</span>()
                 )
                 .<span class="ident">into</span>()
@@ -1377,9 +1371,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [spec]: https://tc39.es/ecma262/#sec-serializejsonarray</span>
     <span class="kw">fn</span> <span class="ident">serialize_json_array</span>(
-        <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">StateRecord</span>,
+        <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">StateRecord</span>,
         <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">JsObject</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>,
+        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span>,
     ) -&gt; <span class="ident">JsResult</span><span class="op">&lt;</span><span class="ident">JsString</span><span class="op">&gt;</span> {
         <span class="comment">// 1. If state.[[Stack]] contains value, throw a TypeError exception because the structure is cyclical.</span>
         <span class="kw">let</span> <span class="ident">limiter</span> <span class="op">=</span> <span class="ident">RecursionLimiter::new</span>(<span class="ident">value</span>);
@@ -1414,11 +1408,11 @@
             <span class="comment">// b. If strP is undefined, then</span>
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">str_p</span>) <span class="op">=</span> <span class="ident">str_p</span> {
                 <span class="comment">// i. Append strP to partial.</span>
-                <span class="ident">partial</span>.<span class="ident">push</span>(<span class="ident">str_p</span>)
+                <span class="ident">partial</span>.<span class="ident">push</span>(<span class="ident">str_p</span>);
             <span class="comment">// c. Else,</span>
             } <span class="kw">else</span> {
                 <span class="comment">// i. Append &quot;null&quot; to partial.</span>
-                <span class="ident">partial</span>.<span class="ident">push</span>(<span class="string">&quot;null&quot;</span>.<span class="ident">into</span>())
+                <span class="ident">partial</span>.<span class="ident">push</span>(<span class="string">&quot;null&quot;</span>.<span class="ident">into</span>());
             }
 
             <span class="comment">// d. Set index to index + 1.</span>
@@ -1442,18 +1436,15 @@
             } <span class="kw">else</span> {
                 <span class="comment">// i. Let separator be the string-concatenation of the code unit 0x002C (COMMA),</span>
                 <span class="comment">//    the code unit 0x000A (LINE FEED), and state.[[Indent]].</span>
-                <span class="kw">let</span> <span class="ident">separator</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;,{}{}&quot;</span>, <span class="string">&#39;\u{A}&#39;</span>, <span class="ident">state</span>.<span class="ident">indent</span>.<span class="ident">as_str</span>());
+                <span class="kw">let</span> <span class="ident">separator</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;,\n{}&quot;</span>, <span class="ident">state</span>.<span class="ident">indent</span>.<span class="ident">as_str</span>());
                 <span class="comment">// ii. Let properties be the String value formed by concatenating all the element Strings of partial</span>
                 <span class="comment">//     with each adjacent pair of Strings separated with separator.</span>
                 <span class="comment">//     The separator String is not inserted either before the first String or after the last String.</span>
                 <span class="kw">let</span> <span class="ident">properties</span> <span class="op">=</span> <span class="ident">partial</span>.<span class="ident">join</span>(<span class="kw-2">&amp;</span><span class="ident">separator</span>);
                 <span class="comment">// iii. Let final be the string-concatenation of &quot;[&quot;, the code unit 0x000A (LINE FEED), state.[[Indent]], properties, the code unit 0x000A (LINE FEED), stepback, and &quot;]&quot;.</span>
                 <span class="macro">format!</span>(
-                    <span class="string">&quot;[{}{}{}{}{}]&quot;</span>,
-                    <span class="string">&#39;\u{A}&#39;</span>,
+                    <span class="string">&quot;[\n{}{properties}\n{}]&quot;</span>,
                     <span class="ident">state</span>.<span class="ident">indent</span>.<span class="ident">as_str</span>(),
-                    <span class="kw-2">&amp;</span><span class="ident">properties</span>,
-                    <span class="string">&#39;\u{A}&#39;</span>,
                     <span class="ident">stepback</span>.<span class="ident">as_str</span>()
                 )
                 .<span class="ident">into</span>()
@@ -1480,5 +1471,4 @@
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="boa" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
-    <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>
 </body></html>
